@@ -1,0 +1,115 @@
+#include <iostream>
+using namespace std;
+ 
+struct node
+{ 
+	int data;
+    node *next;
+};
+ 
+void insert(struct node **h, int num)
+{
+	struct node *newptr, *ptr;
+	newptr=new node;
+	newptr->data=num;
+	newptr->next=NULL;
+	ptr=*h;
+ 
+	if(*h==NULL)
+	{
+		*h=newptr;
+		 return;
+	}
+ 
+	else
+	{
+		while(ptr->next!=NULL)
+		ptr=ptr->next;
+		ptr->next=newptr;
+		return;
+	}
+ 
+ 
+ 
+}
+ 
+void exch(struct node **h)
+{
+	struct node *last=*h;
+	struct node *curr=*h;
+	struct node *prev=NULL;
+ 
+	while(last->next!=NULL)
+	last=last->next;
+ 
+	struct node *last1=last;
+ 
+	 while (curr->data %2 == 0 && curr != last)
+    {
+        last1->next = curr;
+        curr = curr->next;
+        last1->next->next = NULL;
+        last1 = last1->next;
+    }
+ 
+    if (curr->data%2 != 0)
+    {
+ 
+        *h= curr;
+ 
+ 
+        while (curr != last)
+        {
+            if ( (curr->data)%2 != 0 )
+            {
+                prev = curr;
+                curr = curr->next;
+            }
+            else
+            {
+                prev->next = curr->next;
+                curr->next = NULL;
+                last1->next = curr;
+                last1 = curr;
+                curr = prev->next;
+            }
+        }
+    }
+ 
+    else prev = curr;
+ 
+     if (last1!=last && (last->data)%2== 0)
+    {
+        prev->next = last->next;
+        last->next = NULL;
+        last1->next = last;
+    }
+    return;
+}
+ 
+void show(struct node **h)
+{
+	struct node *ptr;
+	ptr=*h;
+	cout<<"\n";
+	while(ptr!=NULL)
+	{ 
+		cout<<ptr->data<<" ";
+		ptr=ptr->next;
+	}
+ 
+	return;
+}
+ 
+int main() 
+{
+	struct node *head=NULL;
+	insert(&head,2);
+	insert(&head,3);
+	insert(&head,4);
+	show(&head);
+	exch(&head);
+	show(&head);
+ 
+	return 0;
+}
